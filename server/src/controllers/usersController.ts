@@ -1,5 +1,6 @@
 import { type Context } from "hono";
 import { UsersService } from "../services/usersService";
+import { getValidatedData } from "../middleware/schemaMiddleware";
 
 export class UsersController {
   constructor() {}
@@ -16,6 +17,12 @@ export class UsersController {
   };
 
   getById = async (c: Context) => {};
+
+  create = async (c: Context) => {
+    const data = getValidatedData(c);
+
+    return c.json(data);
+  };
   update = async (c: Context) => {};
   delete = async (c: Context) => {};
 }

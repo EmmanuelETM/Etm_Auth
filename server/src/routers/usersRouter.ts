@@ -1,5 +1,11 @@
 import { Hono } from "hono";
 import { UsersController } from "../controllers/usersController";
+import { schemaMiddleware } from "../middleware/schemaMiddleware";
+import z from "zod";
+
+const UserSchema = z.object({
+  name: z.string(),
+});
 
 export const createUsersRouter = () => {
   const router = new Hono();
@@ -12,6 +18,11 @@ export const createUsersRouter = () => {
 
   // Admin's Maintenance
   router.get("/", usersController.getAll);
+  router.post(
+    "/",
+    schemaMiddleware({ schema: UserSchema }),
+    usersController.create
+  );
   router.get("/:id");
   router.patch("/:id");
   router.delete("/:id");
