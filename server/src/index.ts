@@ -1,16 +1,15 @@
-import { Hono } from "hono";
+import { createApp } from "./app";
 import { config } from "./config";
-
 import "dotenv/config";
 
-const app = new Hono();
-const port = config.PORT || 4000;
+const app = createApp();
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
+const port = config.PORT || 3000;
+
+Bun.serve({
+  fetch: app.fetch,
+  port,
 });
 
-export default {
-  port,
-  fetch: app.fetch,
-};
+console.clear();
+console.log(`🚀 Server running on http://localhost:${port}`);

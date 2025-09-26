@@ -1,0 +1,10 @@
+
+# ========= Orgs API ===========
+
+### Get All Orgs
+GET http://localhost:3000/organizations
+
+# ========= Users API ==========
+
+### Get All Users
+GET http://localhost:3000/users
