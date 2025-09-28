@@ -1,13 +1,29 @@
 
-# ========= Orgs API ===========
+# ================== Orgs API =====================
 
 ### Get All Orgs
 GET http://localhost:3000/organizations
 
-# ========= Users API ==========
+### Get Org by ID
+GET http://localhost:3000/organizations/9c069d5f-0085-45d7-b36b-2a10a1934ddc
+
+### Create new org
+POST http://localhost:3000/organizations
+Content-Type: application/json
+
+{
+  "name": "Org name",
+  "slug": "org-slug",
+  "domain": "http://exampledomain.com"
+}
+
+# ================= Users API =====================
 
 ### Get All Users
 GET http://localhost:3000/users
+
+### Get User by ID
+GET http://localhost:3000/users/0b68f21c-910c-4d26-aee3-6677b54d3ff3
 
 ### Create new user
 POST http://localhost:3000/users
@@ -15,5 +31,8 @@ Content-Type: application/json
 
 {
   "name": "El weso men",
-  "email": "elwesoman@gmail.com"
+  "email": "elwesoman@gmail.com",
+  "password": "12345678",
+  "birthDate": "1990-01-01",
+  "orgId": "9c069d5f-0085-45d7-b36b-2a10a1934ddc"
 }

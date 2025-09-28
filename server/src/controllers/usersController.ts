@@ -9,20 +9,42 @@ export class UsersController {
     const users = await UsersService.getAll();
 
     if (!users) {
-      c.status(500);
-      return c.json({ message: "something went wrong" });
+      return c.json({ message: "something went wrong" }, 500);
     }
 
     return c.json(users);
   };
 
-  getById = async (c: Context) => {};
+  getById = async (c: Context) => {
+    const { id } = c.req.param();
+
+    const user = await UsersService.getById({ id });
+
+    if (!user) {
+      return c.json(
+        {
+          message: "User not found",
+        },
+        404
+      );
+    }
+
+    return c.json(user);
+  };
 
   create = async (c: Context) => {
     const data = getValidatedData(c);
+    const password = data.password;
 
-    return c.json(data);
+    const result = await UsersService.create({ ...data });
+
+    if (!result) {
+      return c.json({ message: "something went wrong" }, 500);
+    }
+
+    return c.json({ message: "User created!", id: result });
   };
+
   update = async (c: Context) => {};
   delete = async (c: Context) => {};
 }

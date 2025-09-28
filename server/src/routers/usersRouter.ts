@@ -1,11 +1,7 @@
 import { Hono } from "hono";
 import { UsersController } from "../controllers/usersController";
 import { schemaMiddleware } from "../middleware/schemaMiddleware";
-import z from "zod";
-
-const UserSchema = z.object({
-  name: z.string(),
-});
+import { UserInsertSchema } from "../schema/users";
 
 export const createUsersRouter = () => {
   const router = new Hono();
@@ -20,10 +16,10 @@ export const createUsersRouter = () => {
   router.get("/", usersController.getAll);
   router.post(
     "/",
-    schemaMiddleware({ schema: UserSchema }),
+    schemaMiddleware({ schema: UserInsertSchema }),
     usersController.create
   );
-  router.get("/:id");
+  router.get("/:id", usersController.getById);
   router.patch("/:id");
   router.delete("/:id");
   router.post("/:id/activate");
