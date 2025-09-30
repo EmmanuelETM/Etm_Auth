@@ -1,8 +1,11 @@
 import { Hono } from "hono";
+import { Logger } from "pino";
 
 // Middlewares
 import { logger } from "hono/logger";
 import { secureHeaders } from "hono/secure-headers";
+import { requestId } from "hono/request-id";
+import { pinoLoggerMiddleware } from "./middleware/pinoLogger";
 
 // Routers
 import { createAdminRouter } from "./routers/adminRouter";
@@ -14,8 +17,15 @@ import { createPublicRouter } from "./routers/publicRouter";
 import { createSessionsRouter } from "./routers/sessionsRouter";
 import { createUsersRouter } from "./routers/usersRouter";
 import { createWsRouter } from "./routers/wsRouter";
-import { AppError } from "./lib/errors";
+
 import { errorHandler } from "./lib/errorHandler";
+
+declare module "hono" {
+  interface ContextVariableMap {
+    logger: Logger;
+    requestId: string;
+  }
+}
 
 export const createApp = () => {
   const app = new Hono();
@@ -23,6 +33,8 @@ export const createApp = () => {
   // ========= Middlewares =========
   app.use(logger());
   app.use(secureHeaders());
+  app.use(requestId());
+  app.use(pinoLoggerMiddleware);
 
   // =========== Routes ============
 
@@ -51,6 +63,12 @@ export const createApp = () => {
   // ======== Other stuff ==========
 
   app.onError(errorHandler);
+
+  app.get("/test-error", (c) => {
+    c.var.logger.info("Testing error handling");
+    throw new Error("Test error");
+  });
+
   app.notFound((c) => {
     return c.json({ message: "Not Found" }, 404);
   });

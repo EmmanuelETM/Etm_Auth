@@ -9,7 +9,9 @@ import {
 const baseInsertSchema = createInsertSchema(users);
 export const UserInsertSchema = baseInsertSchema.extend({
   birthDate: z.coerce.date(),
-  password: z.string().min(8, { message: "min 8" }),
+  password: z
+    .string()
+    .min(8, { message: "Must contain at least 8 characters" }),
 });
 
 // const passwordSchema = z

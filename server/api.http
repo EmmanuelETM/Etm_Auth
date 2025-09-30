@@ -36,3 +36,7 @@ Content-Type: application/json
   "birthDate": "1990-01-01",
   "orgId": "9c069d5f-0085-45d7-b36b-2a10a1934ddc"
 }
+
+
+### Test Error Handling (Uncomment to test)
+GET http://localhost:3000/test-error

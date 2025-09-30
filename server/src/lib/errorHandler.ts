@@ -1,16 +1,21 @@
 import { Context } from "hono";
-import { HTTPResponseError } from "hono/types";
-import { AppError } from "./errors";
+import { AppError } from "./errors"; // Adjust path as needed
+import { logger } from "./logger"; // Import the base logger
 
-export const errorHandler = (err: Error | HTTPResponseError, c: Context) => {
+export function errorHandler(err: Error, c: Context) {
+  const log = c.get("logger") ?? logger;
+
   if (err instanceof AppError) {
-    // Only log if it's not an operational error
     if (!err.isOperational) {
-      console.error("Non-operational AppError:", {
-        message: err.message,
-        statusCode: err.statusCode,
-        stack: err.stack,
-      });
+      log.error(
+        {
+          err,
+          statusCode: err.statusCode,
+          path: c.req.path,
+          method: c.req.method,
+        },
+        "Non-operational AppError"
+      );
     }
 
     return c.json(
@@ -23,10 +28,14 @@ export const errorHandler = (err: Error | HTTPResponseError, c: Context) => {
   }
 
   // Log all unexpected errors
-  console.error("Unexpected error:", {
-    message: err.message,
-    stack: err.stack,
-  });
+  log.error(
+    {
+      err,
+      path: c.req.path,
+      method: c.req.method,
+    },
+    "Unexpected error"
+  );
 
   return c.json(
     {
@@ -35,4 +44,4 @@ export const errorHandler = (err: Error | HTTPResponseError, c: Context) => {
     },
     500
   );
-};
+}
