@@ -1,4 +1,6 @@
 import { Hono } from "hono";
+
+// Middlewares
 import { logger } from "hono/logger";
 import { secureHeaders } from "hono/secure-headers";
 
@@ -12,8 +14,8 @@ import { createPublicRouter } from "./routers/publicRouter";
 import { createSessionsRouter } from "./routers/sessionsRouter";
 import { createUsersRouter } from "./routers/usersRouter";
 import { createWsRouter } from "./routers/wsRouter";
-
-// Types
+import { AppError } from "./lib/errors";
+import { errorHandler } from "./lib/errorHandler";
 
 export const createApp = () => {
   const app = new Hono();
@@ -48,6 +50,7 @@ export const createApp = () => {
 
   // ======== Other stuff ==========
 
+  app.onError(errorHandler);
   app.notFound((c) => {
     return c.json({ message: "Not Found" }, 404);
   });
