@@ -4,8 +4,7 @@
 GET http://localhost:3000/organizations
 
 ### Get Org by ID
-GET http://localhost:3000/organizations/9c069d5f-0085-45d7-b36b-2a10a1934ddc
-
+GET http://localhost:3000/organizations/cc5700d3-93f5-4103-b28e-42f965c354f0
 ### Create new org
 POST http://localhost:3000/organizations
 Content-Type: application/json
@@ -17,7 +16,7 @@ Content-Type: application/json
 }
 
 ### Update org by ID
-PATCH http://localhost:3000/organizations/9c069d5f-0085-45d7-b36b-2a10a1934ddc
+PATCH http://localhost:3000/organizations/cc5700d3-93f5-4103-b28e-42f965c354f0
 Content-Type: application/json
 
 {
@@ -25,7 +24,7 @@ Content-Type: application/json
 }
 
 ### Delete org by ID
-DELETE http://localhost:3000/organizations/9c069d5f-0085-45d7-b36b-2a10a1934ddc
+DELETE http://localhost:3000/organizations/cc5700d3-93f5-4103-b28e-42f965c354f0
 
 # ======================================= Users API ========================================
 
@@ -40,11 +39,11 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "test1",
-  "email": "test1@gmail.com",
+  "name": "test2",
+  "email": "test2@gmail.com",
   "password": "12345678",
   "birthDate": "1990-01-01",
-  "orgId": "9c069d5f-0085-45d7-b36b-2a10a1934ddc"
+  "orgId": "cc5700d3-93f5-4103-b28e-42f965c354f0"
 }
 
 ### Update user by ID

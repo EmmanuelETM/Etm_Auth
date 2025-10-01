@@ -1,10 +1,9 @@
 // services/usersService.ts
 import { and, eq } from "drizzle-orm";
 import { db } from "../db";
-import { users, type NewUser } from "../db/schema";
+import { organizations, users, type NewUser } from "../db/schema";
 import * as bcrypt from "bcryptjs";
 import { NotFoundError, ConflictError } from "../lib/errors";
-import { password } from "bun";
 
 export class UsersService {
   static async getAll() {
@@ -52,10 +51,12 @@ export class UsersService {
     role,
   }: NewUser) {
     // Check if user exists
-    const existing = await this.getByEmail({ email, orgId });
-    if (existing) {
+    const existingUser = await this.getByEmail({ email, orgId });
+    if (existingUser) {
       throw new ConflictError("User with this email already exists");
     }
+
+    await this.checkOrg({ id: orgId });
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
@@ -91,6 +92,10 @@ export class UsersService {
       updatedData.password = await bcrypt.hash(data.password, salt);
     }
 
+    if (data.orgId) {
+      await this.checkOrg({ id: data.orgId });
+    }
+
     const [updated] = await db
       .update(users)
       .set(updatedData)
@@ -123,4 +128,17 @@ export class UsersService {
   }
 
   static async activate() {}
+  static async updateRole() {}
+
+  private static async checkOrg({ id }: { id: string }) {
+    const result = await db.query.organizations.findFirst({
+      where: eq(organizations.id, id),
+    });
+
+    if (!result) {
+      throw new NotFoundError("Organization not Found!");
+    }
+
+    return result;
+  }
 }
