@@ -39,3 +39,9 @@ export class ForbiddenError extends AppError {
     super(message, 403);
   }
 }
+
+export class ConnectionError extends AppError {
+  constructor(message: string = "Connection Failed!") {
+    super(message, 500);
+  }
+}

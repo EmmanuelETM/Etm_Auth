@@ -2,10 +2,9 @@ import { Hono } from "hono";
 import { Logger } from "pino";
 
 // Middlewares
-import { logger } from "hono/logger";
 import { secureHeaders } from "hono/secure-headers";
 import { requestId } from "hono/request-id";
-import { pinoLoggerMiddleware } from "./middleware/pinoLogger";
+import { pinoLoggerMiddleware } from "./middleware/pinoLoggerMiddleware";
 
 // Routers
 import { createAdminRouter } from "./routers/adminRouter";
@@ -31,7 +30,6 @@ export const createApp = () => {
   const app = new Hono();
 
   // ========= Middlewares =========
-  app.use(logger());
   app.use(secureHeaders());
   app.use(requestId());
   app.use(pinoLoggerMiddleware);

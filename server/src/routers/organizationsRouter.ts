@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { OrgsController } from "../controllers/organizationsController";
 import { schemaMiddleware } from "../middleware/schemaMiddleware";
-import { OrgInsertSchema } from "../schema/organizations";
+import { OrgInsertSchema, OrgUpdateSchema } from "../schema/organizations";
 
 export const createOrgsRouter = (): Hono => {
   const router = new Hono();
@@ -24,8 +24,12 @@ export const createOrgsRouter = (): Hono => {
     schemaMiddleware({ schema: OrgInsertSchema }),
     orgsController.create
   );
-  router.patch("/:id");
-  router.delete("/:id");
+  router.patch(
+    "/:id",
+    schemaMiddleware({ schema: OrgUpdateSchema }),
+    orgsController.update
+  );
+  router.delete("/:id", orgsController.delete);
 
   return router;
 };

@@ -13,4 +13,4 @@ export const OrgInsertSchema = baseInsertSchema.extend({
 });
 
 export const OrgSelectSchema = createSelectSchema(organizations);
-export const OrgUpdateSchema = createUpdateSchema(organizations);
+export const OrgUpdateSchema = createUpdateSchema(organizations).partial();

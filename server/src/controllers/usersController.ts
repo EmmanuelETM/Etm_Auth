@@ -18,7 +18,7 @@ export class UsersController {
   getById = async (c: Context) => {
     const { id } = c.req.param();
 
-    const user = await UsersService.getById(id);
+    const user = await UsersService.getById({ id });
 
     return c.json({
       success: true,
@@ -42,21 +42,27 @@ export class UsersController {
   };
 
   update = async (c: Context) => {
-    // TODO: Implement update logic
     const { id } = c.req.param();
     const data = getValidatedData(c);
 
-    // Example implementation:
-    // const user = await UsersService.update(id, data);
-    // return c.json({ success: true, data: user });
+    const user = await UsersService.update({ id, data });
+
+    return c.json({
+      success: true,
+      data: user,
+    });
   };
 
   delete = async (c: Context) => {
-    // TODO: Implement delete logic
     const { id } = c.req.param();
 
-    // Example implementation:
-    // await UsersService.delete(id);
-    // return c.json({ success: true, message: "User deleted" });
+    await UsersService.delete({ id });
+    return c.json({
+      success: true,
+      message: "User deleted",
+    });
   };
+
+  activate = async (c: Context) => {};
+  updateRole = async (c: Context) => {};
 }

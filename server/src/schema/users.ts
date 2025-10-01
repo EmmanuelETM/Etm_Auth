@@ -7,11 +7,10 @@ import {
 } from "drizzle-zod";
 
 const baseInsertSchema = createInsertSchema(users);
+
 export const UserInsertSchema = baseInsertSchema.extend({
   birthDate: z.coerce.date(),
-  password: z
-    .string()
-    .min(8, { message: "Must contain at least 8 characters" }),
+  password: z.string().min(8, { message: "Min 8" }),
 });
 
 // const passwordSchema = z

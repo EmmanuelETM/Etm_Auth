@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { UsersController } from "../controllers/usersController";
 import { schemaMiddleware } from "../middleware/schemaMiddleware";
-import { UserInsertSchema } from "../schema/users";
+import { UserInsertSchema, UserUpdateSchema } from "../schema/users";
 
 export const createUsersRouter = () => {
   const router = new Hono();
@@ -20,10 +20,22 @@ export const createUsersRouter = () => {
     usersController.create
   );
   router.get("/:id", usersController.getById);
-  router.patch("/:id");
-  router.delete("/:id");
-  router.post("/:id/activate");
-  router.patch("/:id/role"); //change role
+  router.patch(
+    "/:id",
+    schemaMiddleware({ schema: UserUpdateSchema }),
+    usersController.update
+  );
+  router.delete("/:id", usersController.delete);
+  router.post(
+    "/:id/activate",
+    schemaMiddleware({ schema: UserUpdateSchema }),
+    usersController.activate
+  );
+  router.patch(
+    "/:id/role",
+    schemaMiddleware({ schema: UserUpdateSchema }),
+    usersController.updateRole
+  );
 
   // Users Invitations
   router.post("/invite");

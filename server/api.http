@@ -1,5 +1,4 @@
-
-# ================== Orgs API =====================
+# ====================================== Orgs API =========================================
 
 ### Get All Orgs
 GET http://localhost:3000/organizations
@@ -17,26 +16,47 @@ Content-Type: application/json
   "domain": "http://exampledomain.com"
 }
 
-# ================= Users API =====================
+### Update org by ID
+PATCH http://localhost:3000/organizations/9c069d5f-0085-45d7-b36b-2a10a1934ddc
+Content-Type: application/json
+
+{
+  "name": "Updated Org Name"
+}
+
+### Delete org by ID
+DELETE http://localhost:3000/organizations/9c069d5f-0085-45d7-b36b-2a10a1934ddc
+
+# ======================================= Users API ========================================
 
 ### Get All Users
 GET http://localhost:3000/users
 
 ### Get User by ID
-GET http://localhost:3000/users/0b68f21c-910c-4d26-aee3-6677b54d3ff3
+GET http://localhost:3000/users/ad0f9c4c-f6d3-422c-9951-d485d013f834
 
 ### Create new user
 POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "El weso men",
-  "email": "elwesoman@gmail.com",
+  "name": "test1",
+  "email": "test1@gmail.com",
   "password": "12345678",
   "birthDate": "1990-01-01",
   "orgId": "9c069d5f-0085-45d7-b36b-2a10a1934ddc"
 }
 
+### Update user by ID
+PATCH http://localhost:3000/users/0b68f21c-910c-4d26-aee3-6677b54d3ff3
+Content-Type: application
+
+{
+  "name": "Updated Name"
+}
+
+### Delete user by ID
+DELETE http://localhost:3000/users/0b68f21c-910c-4d26-aee3-6677b54d3ff3
 
 ### Test Error Handling (Uncomment to test)
 GET http://localhost:3000/test-error

@@ -1,6 +1,6 @@
 import { Context } from "hono";
-import { AppError } from "./errors"; // Adjust path as needed
-import { logger } from "./logger"; // Import the base logger
+import { AppError } from "./errors";
+import { logger } from "./logger";
 
 export function errorHandler(err: Error, c: Context) {
   const log = c.get("logger") ?? logger;
@@ -27,7 +27,6 @@ export function errorHandler(err: Error, c: Context) {
     );
   }
 
-  // Log all unexpected errors
   log.error(
     {
       err,
